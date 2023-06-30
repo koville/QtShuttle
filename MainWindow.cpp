@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     vec << ui->btn1 << ui->btn2 << ui->btn3 << ui->btn4
         << ui->btn5 << ui->btn6 << ui->btn7 << ui->btn8
         << ui->horizontalScrollBar;
-    ShuttleHelper::Instance().UpdateMainWindow(vec, vec.constBegin());
+    ShuttleHelper::Instance().UpdateMainWindow(vec, ui->btn1);
 }
 
 MainWindow::~MainWindow()

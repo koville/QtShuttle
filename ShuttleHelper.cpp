@@ -118,35 +118,42 @@ void ShuttleHelper::PopTopWindow()
 {
     m_shuttleQueue.pop_back();
     SetAdjustFlag(false);
-    if(m_clickFlag)
+    (*m_shuttleQueue.last().shuttleIter)->setFocus();
+    if(!m_clickFlag)
     {
-        (*m_shuttleQueue.last().shuttleIter)->setFocus();
-    }
-    else
-    {
-        (*m_shuttleQueue.last().shuttleIter)->setFocus(); // 先把焦点移动过来再隐藏
         (*m_shuttleQueue.last().shuttleIter)->clearFocus();
     }
 }
 
-void ShuttleHelper::RegeisterNewWindow(QVector<QWidget*> vec, QVector<QWidget*>::const_iterator iter)
+void ShuttleHelper::RegeisterNewWindow(QVector<QWidget*> vec, QWidget* widget)
 {
-    m_shuttleQueue.push_back(ShuttleDate{ vec, iter });
-    if(m_clickFlag)
+    QVector<QWidget*>::const_iterator iter = vec.constBegin();
+    if(-1 != vec.indexOf(widget))
     {
-        (*iter)->setFocus();
+        iter = vec.constBegin() + vec.indexOf(widget);
+    }
+    m_shuttleQueue.push_back(ShuttleDate{ vec, iter });
+    (*iter)->setFocus();
+    if(!m_clickFlag)
+    {
+        (*iter)->clearFocus();
     }
 }
 
 void ShuttleHelper::RegeisterVoidTop() // 某些特殊情况 先创建出一个top的数据结构 使用前用Update去填充
 {
     QVector<QWidget*> vec;
-    QVector<QWidget*>::iterator iter = vec.begin();
+    QVector<QWidget*>::const_iterator iter = vec.constBegin();
     m_shuttleQueue.push_back(ShuttleDate{ vec, iter });
 }
 
-void ShuttleHelper::UpdateTopWindow(QVector<QWidget*> vec, QVector<QWidget*>::const_iterator iter)
+void ShuttleHelper::UpdateTopWindow(QVector<QWidget*> vec, QWidget* widget)
 {
+    QVector<QWidget*>::const_iterator iter = vec.constBegin();
+    if(-1 != vec.indexOf(widget))
+    {
+        iter = vec.constBegin() + vec.indexOf(widget);
+    }
     m_shuttleQueue.last().shuttleVec = vec;
     m_shuttleQueue.last().shuttleIter = iter;
     (*iter)->setFocus();
@@ -156,8 +163,13 @@ void ShuttleHelper::UpdateTopWindow(QVector<QWidget*> vec, QVector<QWidget*>::co
     }
 }
 
-void ShuttleHelper::UpdateMainWindow(QVector<QWidget*> vec, QVector<QWidget*>::const_iterator iter)
+void ShuttleHelper::UpdateMainWindow(QVector<QWidget*> vec, QWidget* widget)
 {
+    QVector<QWidget*>::const_iterator iter = vec.constBegin();
+    if(-1 != vec.indexOf(widget))
+    {
+        iter = vec.constBegin() + vec.indexOf(widget);
+    }
     m_shuttleQueue.first().shuttleVec = vec;
     m_shuttleQueue.first().shuttleIter = iter;
     (*iter)->setFocus();
@@ -191,5 +203,6 @@ void ShuttleHelper::SetAdjustFlag(bool flag)
 void ShuttleHelper::SetClickFlag()
 {
     m_clickFlag = false;
+    (*m_shuttleQueue.last().shuttleIter)->setFocus();
     (*m_shuttleQueue.last().shuttleIter)->clearFocus();
 }

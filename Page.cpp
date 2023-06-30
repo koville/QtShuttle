@@ -23,7 +23,7 @@ void Page::showEvent(QShowEvent *e)
 {
     QVector<QWidget*> vec;
     vec << ui->btn2 << ui->btn1;
-    ShuttleHelper::Instance().RegeisterNewWindow(vec, vec.constBegin());
+    ShuttleHelper::Instance().RegeisterNewWindow(vec, ui->btn2);
     QWidget::showEvent(e);
 }
 

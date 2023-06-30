@@ -20,10 +20,10 @@ public:
     static void Destruct();
 
     void PopTopWindow();
-    void RegeisterNewWindow(QVector<QWidget*>, QVector<QWidget*>::const_iterator);
+    void RegeisterNewWindow(QVector<QWidget*>, QWidget*);
     void RegeisterVoidTop();
-    void UpdateTopWindow(QVector<QWidget*>, QVector<QWidget*>::const_iterator);
-    void UpdateMainWindow(QVector<QWidget*>, QVector<QWidget*>::const_iterator);
+    void UpdateTopWindow(QVector<QWidget*>, QWidget*);
+    void UpdateMainWindow(QVector<QWidget*>, QWidget*);
     void UpdateTopWinIter(QWidget *);
     void SetAdjustFlag(bool flag = true);
     void SetClickFlag();
